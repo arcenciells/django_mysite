@@ -56,6 +56,8 @@ class Comment(models.Model):
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
                              related_name='comments')
+    # related_name 설정하는 이유
+    # Django 모델에서 외래키 관계를 정의할 때 반대 방향의 관계를 참조할 수 있도록 이름을 지정하는 것
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
