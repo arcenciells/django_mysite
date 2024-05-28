@@ -14,29 +14,29 @@
       <button type="submit" class="search-button">Search</button>
   </form>
 
-<!-- 검색 결과 -->
-{% if query %}
-  {% if posts %}
-    <h2>Posts containing "{{ query }}"</h2>
-    <h3>
-      {% with posts.count as total_results %}
-        Found {{ total_results }} result{{ total_results|pluralize }}
-      {% endwith %}
-    </h3>
-    {% for post in posts %}
-      <h4>
-        <a href="{{ post.get_absolute_url }}">
-          {{ post.title }}
-        </a>
-      </h4>s
-      {{ post.body|markdown|truncatewords:30|linebreaks }}
-    {% empty %}
-      <p>There are no results for your query.</p>
-    {% endfor %}
+  <!-- 검색 결과 -->
+  {% if query %}
+    {% if posts %}
+      <h2>Posts containing "{{ query }}"</h2>
+      <h3>
+        {% with posts.count as total_results %}
+          Found {{ total_results }} result{{ total_results|pluralize }}
+        {% endwith %}
+      </h3>
+      {% for post in posts %}
+        <h4>
+          <a href="{{ post.get_absolute_url }}">
+            {{ post.title }}
+          </a>
+        </h4>
+        {{ post.body|markdown|truncatewords:30|linebreaks }}
+      {% empty %}
+        <p>There are no results for your query.</p>
+      {% endfor %}
+    {% else %}
+      <p>No posts found for your search query.</p>
+    {% endif %}
   {% else %}
-    <p>No posts found for your search query.</p>
-  {% endif %}
-{% else %}
 
   <!-- 기존 게시물 목록 -->
   {% for post in posts %}
@@ -59,6 +59,7 @@
     </p>
     {{ post.body|markdown|truncatewords:30|linebreaks }}
   {% endfor %}
+  <!-- posts 변수를 pagination.html 템플릿에 page 변수로 전달 -->
   {% include "pagination.html" with page=posts %}
 {% endif %}
 {% endblock %}
